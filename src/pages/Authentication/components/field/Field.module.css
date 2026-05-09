@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 10%;
+}
+
+.title {
+  font-size: 50px;
+  display: flex;
+  align-items: center;
+  margin-top: 3vh;
+}
+
+.title_text {
+  margin-top: 3vh;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  flex-shrink: 0;
+}

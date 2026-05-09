@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Footer } from "./widgets/Footer/Footer";
+import { Header } from "./widgets/Header/Header";
+import styles from "./App.module.css";
+import { TextColors } from "./Shared/Colors/TextColors/TextColors";
+import { ComponentColors } from "./Shared/Colors/ComponentColors/ComponentColors";
 
-function App() {
+//TODO: Create whole footer
+//TODO: Create whole header
+//TODO: Create router
+//TODO: Create auth page
+
+function App({ children }: { children: React.JSX.Element }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className={styles.container}
+      style={{
+        color: TextColors.main,
+        backgroundColor: ComponentColors.background,
+      }}
+    >
+      <Header />
+
+      {children}
+
+      <Footer />
     </div>
   );
 }
