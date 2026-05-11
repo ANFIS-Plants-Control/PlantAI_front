@@ -1,27 +1,23 @@
 import { UserForm } from "../../../entities/user/user";
-import { useUserStore } from "../../../stores/UserStore";
 
-export async function getToken(userForm: UserForm) {
-  const userStore = useUserStore();
-  const response = await fetch("", {
+export async function getToken(userForm: UserForm): Promise<string> {
+  const response = await fetch("http://localhost:8080/api/users/get_token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify(userForm),
+    body: JSON.stringify({ Login: "test", Password: "test" }),
   });
   if (!response.ok) throw new Error("incorrect user login or password");
   else {
     const data = await response.json();
-    userStore.setToken(data.token);
-    userStore.setUser();
+    return data;
   }
 }
 
 export async function createUser(userForm: UserForm) {
-  const userStore = useUserStore();
-  const response = await fetch("", {
+  const response = await fetch("http://localhost:8080/api/users/get_token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -32,7 +28,6 @@ export async function createUser(userForm: UserForm) {
   if (!response.ok) throw new Error("incorrect user login or password");
   else {
     const data = await response.json();
-    userStore.setToken(data.token);
-    userStore.setUser();
+    return data;
   }
 }

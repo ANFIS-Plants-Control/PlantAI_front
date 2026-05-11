@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { User, UserForm } from "../../entities/user/user";
+import { UserForm } from "../../entities/user/user";
 
 interface IAuthenticationStore {
   mode: "signin" | "signup";
   buttonStatus: boolean;
   user: UserForm;
-  updateButtonStatus: () => void;
+  updateButtonStatus: (status: boolean) => void;
   updateMode: () => void;
   updateUser: <T extends keyof UserForm>(obj: T, val: UserForm[T]) => void;
 }
@@ -18,14 +18,17 @@ export const useAuthenticationStore = create<IAuthenticationStore>(
     updateMode: () => {
       set({ mode: get().mode === "signin" ? "signup" : "signin" });
     },
-    updateButtonStatus: () => {
-      set({ buttonStatus: get().buttonStatus === true ? false : true });
+    updateButtonStatus: (status: boolean) => {
+      set({ buttonStatus: status });
     },
     updateUser: <T extends keyof UserForm>(obj: T, value: UserForm[T]) => {
       const editUser = get().user;
       if (editUser) {
         set({ user: { ...editUser, [obj]: value } });
       }
+      if (get().user.Login !== "" && get().user.Password !== "")
+        get().updateButtonStatus(false);
+      else get().updateButtonStatus(true);
     },
   }),
 );

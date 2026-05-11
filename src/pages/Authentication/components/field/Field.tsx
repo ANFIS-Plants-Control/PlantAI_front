@@ -3,10 +3,12 @@ import { useAuthenticationStore } from "../../store";
 import style from "./Field.module.css";
 
 import green_house from "../../../../green-house.png";
-import { createUser, getToken } from "../../api/api";
+import { createUser } from "../../api/api";
+import { useUserStore } from "../../../../stores/TokenStore";
 
 export function Field() {
   const store = useAuthenticationStore();
+  const userStore = useUserStore();
   return (
     <div className={style.container}>
       <Stack className={style.title} direction="column">
@@ -33,7 +35,7 @@ export function Field() {
           disabled={store.buttonStatus}
           onClick={() => {
             store.mode === "signin"
-              ? getToken(store.user)
+              ? userStore.setToken(store.user)
               : createUser(store.user);
           }}
         >
