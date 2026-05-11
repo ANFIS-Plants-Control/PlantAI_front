@@ -7,7 +7,7 @@ export async function getToken(userForm: UserForm): Promise<string> {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({ Login: "test", Password: "test" }),
+    body: JSON.stringify(userForm),
   });
   if (!response.ok) throw new Error("incorrect user login or password");
   else {

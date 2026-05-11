@@ -4,7 +4,7 @@ import style from "./Field.module.css";
 
 import green_house from "../../../../green-house.png";
 import { createUser } from "../../api/api";
-import { useUserStore } from "../../../../stores/TokenStore";
+import { useUserStore } from "../../../../stores/UserStore";
 
 export function Field() {
   const store = useAuthenticationStore();
