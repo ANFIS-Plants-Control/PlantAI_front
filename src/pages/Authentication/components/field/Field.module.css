@@ -15,12 +15,12 @@
 }
 
 .title_text {
-  margin-top: 3vh;
+  margin-top: 2vh;
 }
 
 .icon {
-  width: 64px;
-  height: 64px;
+  width: 82px;
+  height: 82px;
   object-fit: contain;
   flex-shrink: 0;
 }

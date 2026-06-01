@@ -4,6 +4,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { Router } from "./app/router/router";
 import App from "./App";
+import { ThemeProvider } from "@emotion/react";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
