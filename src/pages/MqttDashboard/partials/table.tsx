@@ -1,43 +1,41 @@
-import { Box, IconButton, Paper, styled } from "@mui/material";
+import { Box, IconButton, Paper, styled, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useMqttClientsStore } from "../store";
+import { MqttClientEditWindow } from "./MqttClientEditWindow";
 
 export function Table() {
-  const clients = useMqttClientsStore((s) => s.mqttClients);
-  const date: Date = new Date();
-  const fromatDate: string = date.toLocaleDateString("ru-RU", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "2-digit",
-  });
-  const data = [
-    {
-      ClientId: "test",
-      Status: "subscribed",
-      Topic: "test",
-      LastMessageTime: fromatDate,
-    },
-  ];
-  if (clients) {
-    clients.map((c) => {
-      data.concat({
-        ClientId: c.clientId,
-        Status: "subscribed",
-        Topic: c.topic,
-        LastMessageTime: fromatDate,
-      });
-    });
-  }
+  const dashboard = useMqttClientsStore((s) => s.dashboard);
+  const handleOpenDialog = useMqttClientsStore((s) => s.handleOpenDialog);
 
-  const columns = "10vw 10vw minmax(10vw, 1fr) 24vw 6vw";
+  const columns = "10vw 10vw minmax(10vw, 1fr) 24vw 120px";
+
+  const StyledTableTitle = styled(Typography)(({ theme }) => ({
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+
+    fontSize: '2.5rem',
+    fontWeight: 600,
+    lineHeight: 1.3,
+    letterSpacing: '-0.015em',
+    color: theme.palette.text.primary,
+
+    mb: 2.5,
+
+    position: 'relative',
+    
+}));
 
   const StyledBox = styled(Box)(({ theme }) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
+
+    padding: theme.spacing(1.5, 2),
+    fontSize: '0.95rem',
+    fontWeight: 500,
+    color: theme.palette.text.primary,
+    lineHeight: 1.5,
   }));
 
   const rowStyles = {
@@ -46,10 +44,12 @@ export function Table() {
     gap: 2,
     alignItems: "center",
   };
-
   return (
     <Paper sx={{ p: 2, m: 2 }}>
-      <Box
+      {dashboard && dashboard.map((d, i) => (
+        <Box key={i}>
+        <StyledTableTitle variant="h1" sx={{mb: 2}}>{d.host}:{d.port}</StyledTableTitle>
+        <Box
         sx={{
           ...rowStyles,
           fontWeight: 600,
@@ -65,8 +65,8 @@ export function Table() {
         <StyledBox>Изменить</StyledBox>
       </Box>
 
-      {data.map((d, i) => (
-        <Box
+        {d.clients && d.clients.map((c, i) => (
+          <Box
           key={i}
           sx={{
             ...rowStyles,
@@ -75,18 +75,21 @@ export function Table() {
             borderColor: "divider",
           }}
         >
-          <StyledBox>{d.ClientId}</StyledBox>
+          <StyledBox>{c.clientId}</StyledBox>
 
-          <StyledBox>{d.Status}</StyledBox>
+          <StyledBox>subscribed</StyledBox>
 
-          <StyledBox>{d.Topic}</StyledBox>
+          <StyledBox>{c.topic.topic}</StyledBox>
 
-          <StyledBox>{d.LastMessageTime}</StyledBox>
+          <StyledBox>{Date.now().toString()}</StyledBox>
           <IconButton>
-            <EditIcon />
+            <EditIcon onClick={() => handleOpenDialog(true)} />
           </IconButton>
+          <MqttClientEditWindow/>
         </Box>
+        ))}
+      </Box>
       ))}
-    </Paper>
+      </Paper>
   );
 }
