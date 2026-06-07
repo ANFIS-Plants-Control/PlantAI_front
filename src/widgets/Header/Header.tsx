@@ -1,5 +1,5 @@
 import styles from "./Header.module.css";
-import plant from "../../plant.png";
+import plant from "../../Shared/images/plant.png";
 import { Link } from "@mui/material";
 
 export function Header() {
@@ -13,7 +13,7 @@ export function Header() {
       <div className={styles.navigation}>
         <div>Main</div>
         <div>About</div>
-        <Link href="/mqtt_clients">Mqtt clients</Link>
+        <Link href="/mqtt_panel">MQTT панель</Link>
       </div>
     </div>
   );

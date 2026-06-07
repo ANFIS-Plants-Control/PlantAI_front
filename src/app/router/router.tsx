@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import { AuthenticationPage } from "../../pages/Authentication/authentication";
-import { MqttDashboard } from "../../pages/MqttDashboard/mqttDashboard";
+import { MqttControlPanel } from "../../pages/MqttControlPanel/panel";
 
 export function Router() {
   return (
     <Routes>
       <Route path="/authentication" element={<AuthenticationPage />} />
 
-      <Route path="/mqtt_clients" element={<MqttDashboard />} />
+      <Route path="/mqtt_panel" element={<MqttControlPanel />} />
     </Routes>
   );
 }

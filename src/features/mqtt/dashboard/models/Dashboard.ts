@@ -3,6 +3,6 @@ import { MqttClient } from "./MqttClientModel";
 export interface Dashboard {
   id: number;
   host: string;
-  port: string;
+  port: number;
   clients: MqttClient[];
 }

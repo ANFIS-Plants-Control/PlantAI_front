@@ -2,7 +2,7 @@ import { Button, Stack, TextField } from "@mui/material";
 import { useAuthenticationStore } from "../../store";
 import style from "./Field.module.css";
 
-import green_house from "../../../../green-house.png";
+import green_house from "../../../../Shared/images/green-house.png";
 import { createUser } from "../../api/api";
 import { useUserStore } from "../../../../stores/UserStore";
 
