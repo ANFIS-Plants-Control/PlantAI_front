@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { ClientCardHeader } from "./partials/ClientCard/header";
 import { ClientCardContent } from "./partials/ClientCard/content";
 import { ClientCardActions } from "./partials/ClientCard/actions";
+import { Title } from "./partials/title";
 
 export function MqttClient() {
   const clients = useMqttClientStore((s) => s.clients);
@@ -16,6 +17,7 @@ export function MqttClient() {
 
   return (
     <Stack sx={{ flex: 1, p: 4 }} spacing={4}>
+      <Title />
       <Stack direction="row" sx={{ gap: 2, flexWrap: "wrap" }}>
         {clients &&
           clients.map((c) => (

@@ -13,7 +13,7 @@ export function Header() {
       <div className={styles.navigation}>
         <div>Main</div>
         <div>About</div>
-        <Link href="/mqtt_panel">MQTT панель</Link>
+        <Link href="/control_panel">Панель управления</Link>
       </div>
     </div>
   );

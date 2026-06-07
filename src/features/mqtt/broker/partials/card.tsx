@@ -6,10 +6,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import DnsIcon from "@mui/icons-material/Dns";
 import { BrokerParameters } from "../models/BrokerParameters";
 import { useBrokerStore } from "../store";
 import { useGlobalStore } from "../../../../stores/GlobalStore";
+import { DnsIcon } from "../../../../Shared/icons";
 
 export function BrokerCard({ broker }: { broker: BrokerParameters }) {
   const openEdit = useBrokerStore((s) => s.openEdit);

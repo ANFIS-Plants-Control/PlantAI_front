@@ -1,6 +1,6 @@
 import { Box, CardHeader } from "@mui/material";
 import { MqttClient } from "../../models";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import { ManageAccountsIcon } from "../../../../../Shared/icons";
 
 interface IClientCardHeader {
   client: MqttClient;

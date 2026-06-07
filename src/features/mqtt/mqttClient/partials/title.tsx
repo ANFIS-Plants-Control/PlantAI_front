@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
 import { useMqttClientStore } from "../store";
+import { AutorenewIcon } from "../../../../Shared/icons";
 
 export function Title() {
   const init = useMqttClientStore((s) => s.init);

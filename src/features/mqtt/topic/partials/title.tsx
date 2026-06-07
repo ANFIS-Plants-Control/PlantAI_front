@@ -1,6 +1,7 @@
 import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
+
 import { useTopicStore } from "../store";
+import { AutorenewIcon } from "../../../../Shared/icons";
 
 export function Title() {
   const openCreate = useTopicStore((s) => s.openCreate);
