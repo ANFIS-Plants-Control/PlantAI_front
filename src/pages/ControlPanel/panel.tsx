@@ -17,8 +17,9 @@ export function ControlPanel() {
       <Stack
         direction="row"
         sx={{
-          minHeight: "80vh",
           gap: "32px",
+          overflow:"hidden",
+          flex: 1
         }}
       >
         <Menu />

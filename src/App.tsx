@@ -16,10 +16,17 @@ function App({ children }: { children: React.JSX.Element }) {
         backgroundColor: ComponentColors.background,
       }}
     >
-      <Header />
-      {isShowNotAvailable && <NotReleased />}
+      <div style={{display:'grid'}}>
+      <Header /></div>
+      <div style={{display: 'grid', overflow: 'hidden', overflowY: 'auto'}}>
+
       {children}
+      </div>
+      <div style={{display: 'grid'}}>
       <Footer />
+      </div>
+
+      {isShowNotAvailable && <NotReleased />}
     </div>
   );
 }

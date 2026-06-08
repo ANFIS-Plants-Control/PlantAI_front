@@ -4,6 +4,7 @@ import { AutorenewIcon } from "../../../../Shared/icons";
 
 export function Title() {
   const init = useMqttClientStore((s) => s.init);
+  const openCreate = useMqttClientStore(s => s.openCreate)
   return (
     <Stack
       direction="row"
@@ -28,6 +29,7 @@ export function Title() {
             },
             fontSize: "1.1rem",
           }}
+          onClick={() => openCreate()}
         >
           Создать клиента
         </Button>

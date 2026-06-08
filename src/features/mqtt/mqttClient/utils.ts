@@ -11,6 +11,6 @@ export function SetClientsStatuses(
   }));
 }
 
-export function ToAddr(broker: BrokerParameters | undefined) {
+export function BrokerToAddr(broker: BrokerParameters | undefined) {
   if (broker) return `${broker.host}:${broker.port}`;
 }

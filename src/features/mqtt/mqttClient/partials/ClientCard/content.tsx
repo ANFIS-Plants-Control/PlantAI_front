@@ -1,5 +1,5 @@
 import { Box, CardContent, Stack, Typography } from "@mui/material";
-import { ToAddr } from "../../utils";
+import { BrokerToAddr } from "../../utils";
 import { useMqttClientStore } from "../../store";
 import { MqttClient } from "../../models";
 
@@ -25,7 +25,7 @@ export function ClientCardContent(client: IClientCardContent) {
           variant="body1"
           sx={{ fontWeight: 600, fontSize: "1.5rem" }}
         >
-          {ToAddr(brokers.find((b) => b.id === client.client.brokerId))}
+          {BrokerToAddr(brokers.find((b) => b.id === client.client.brokerId))}
         </Typography>
       </Box>
       <Box sx={{ height: 80 }}>

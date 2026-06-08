@@ -10,6 +10,5 @@ export interface MqttClient {
 
 export interface CreateMqttClient {
   clientId: string;
-  topicId: string;
   brokerId: string;
 }

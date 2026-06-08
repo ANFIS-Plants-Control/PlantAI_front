@@ -42,7 +42,7 @@ export interface MqttClientStore {
 export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
   clients: [],
   editClient: {} as MqttClient,
-  createClient: { clientId: "", brokerId: "", topicId: "" } as CreateMqttClient,
+  createClient: { clientId: "", brokerId: ''},
 
   brokers: [],
   topics: [],
@@ -54,7 +54,6 @@ export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
     );
     const brokers = await GetBrokerParameters();
     const topics = await GetTopicDefinitions();
-    console.log("render");
     set({ clients: clients, brokers: brokers, topics: topics });
   },
 
@@ -77,13 +76,14 @@ export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
   closeCreate: () => {
     set({
       isCreate: false,
-      createClient: { clientId: "", brokerId: "", topicId: "" },
+      createClient: { clientId: "", brokerId: ''},
     });
   },
   setCreateClient: <T extends keyof CreateMqttClient>(
     key: T,
     value: CreateMqttClient[T],
   ) => {
+    console.log(value)
     set({ createClient: { ...get().createClient, [key]: value } });
   },
   handleCreateClient: async () => {},
