@@ -6,6 +6,9 @@ import { Router } from "./app/router/router";
 import App from "./App";
 import { ThemeProvider } from "@emotion/react";
 import { DefaultTheme } from "./app/theme/DefaultTheme";
+import { LocalizationProvider } from "@mui/x-date-pickers-pro/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
+import "react-day-picker/style.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -13,11 +16,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={DefaultTheme}>
-      <App>
-        <BrowserRouter>
-          <Router />
-        </BrowserRouter>
-      </App>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <App>
+          <BrowserRouter>
+            <Router />
+          </BrowserRouter>
+        </App>
+      </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );

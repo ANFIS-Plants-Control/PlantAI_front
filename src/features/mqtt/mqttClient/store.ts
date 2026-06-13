@@ -3,10 +3,12 @@ import { BrokerParameters } from "../dashboard/models";
 import { TopicDefinition } from "./models/TopicDefinition";
 import { CreateMqttClient, MqttClient } from "./models/MqttClient";
 import {
+  CreateClient,
   GetBrokerParameters,
   GetClients,
   GetSubscribedClients,
   GetTopicDefinitions,
+  Synchronize,
 } from "./api";
 import { SetClientsStatuses } from "./utils";
 
@@ -42,7 +44,7 @@ export interface MqttClientStore {
 export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
   clients: [],
   editClient: {} as MqttClient,
-  createClient: { clientId: "", brokerId: ''},
+  createClient: { clientId: "", brokerId: "" },
 
   brokers: [],
   topics: [],
@@ -54,6 +56,7 @@ export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
     );
     const brokers = await GetBrokerParameters();
     const topics = await GetTopicDefinitions();
+    await Synchronize();
     set({ clients: clients, brokers: brokers, topics: topics });
   },
 
@@ -76,15 +79,17 @@ export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
   closeCreate: () => {
     set({
       isCreate: false,
-      createClient: { clientId: "", brokerId: ''},
+      createClient: { clientId: "", brokerId: "" },
     });
   },
   setCreateClient: <T extends keyof CreateMqttClient>(
     key: T,
     value: CreateMqttClient[T],
   ) => {
-    console.log(value)
+    console.log(value);
     set({ createClient: { ...get().createClient, [key]: value } });
   },
-  handleCreateClient: async () => {},
+  handleCreateClient: async () => {
+    await CreateClient(get().createClient);
+  },
 }));

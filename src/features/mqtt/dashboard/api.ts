@@ -1,6 +1,7 @@
 import { BrokerParameters, MqttClient, TopicDefinition } from "./models";
 import { get, postEmpty } from "../../../utils/api/BaseApiClient";
 import { DataGroup } from "./models/DataGroup";
+import { SensorData } from "./models/SensorData";
 
 export async function GetClients(): Promise<MqttClient[]> {
   const data = await get<MqttClient[]>("/api/MqttClients");
@@ -33,6 +34,12 @@ export async function GetSubscribedClients(): Promise<string[]> {
 
 export async function GetDataGroups(): Promise<DataGroup[]> {
   const data = await get<DataGroup[]>("/api/SensorData/data-groups");
+  if (data !== null) return data;
+  return [];
+}
+
+export async function GetSensorsData(): Promise<SensorData[]> {
+  const data = await get<SensorData[]>("/api/SensorData");
   if (data !== null) return data;
   return [];
 }

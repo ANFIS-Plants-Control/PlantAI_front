@@ -41,7 +41,7 @@ export function ClientCardContent(client: IClientCardContent) {
             overflowY: "auto",
           }}
         >
-          {client.client.topics.map((t) => (
+          {client.client?.topics?.map((t) => (
             <Box
               key={t.id}
               sx={{

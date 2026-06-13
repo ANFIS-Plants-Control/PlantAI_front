@@ -1,45 +1,76 @@
-import { Button, Stack, TextField } from "@mui/material";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
+import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import { useUserStore } from "../../../../stores/UserStore";
+import { createUser } from "../../api/api";
 import { useAuthenticationStore } from "../../store";
 import style from "./Field.module.css";
-
-import green_house from "../../../../Shared/images/green-house.png";
-import { createUser } from "../../api/api";
-import { useUserStore } from "../../../../stores/UserStore";
 
 export function Field() {
   const store = useAuthenticationStore();
   const userStore = useUserStore();
+  const isSignin = store.mode === "signin";
+
   return (
     <div className={style.container}>
-      <Stack className={style.title} direction="column">
-        <img className={style.icon} src={green_house} alt="green house" />
-        <div className={style.title_text}>
-          {store.mode === "signin" ? "Вход в аккаунт" : "Регистрация аккаунта"}
-        </div>
-      </Stack>
-      <Stack direction="column" sx={{ gap: "3vh", padding: "10vh 0" }}>
+      <div className={style.title}>
+        <span className={style.kicker}>
+          {isSignin ? "С возвращением" : "Начнём знакомство"}
+        </span>
+        <h2>{isSignin ? "Войдите в аккаунт" : "Создайте аккаунт"}</h2>
+        <p>
+          {isSignin
+            ? "Введите данные, чтобы продолжить работу с PlantAI."
+            : "Заполните данные, и ваша умная система будет готова к настройке."}
+        </p>
+      </div>
+
+      <Stack className={style.form} direction="column">
         <TextField
-          label="Login"
-          sx={{ width: "18vw", margin: "0 7vw" }}
-          onChange={(val) => store.updateUser("Login", val.target.value)}
-        ></TextField>
+          fullWidth
+          label="Логин"
+          placeholder="Введите ваш логин"
+          autoComplete="username"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonOutlineRoundedIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
+          onChange={(event) => store.updateUser("Login", event.target.value)}
+        />
         <TextField
-          sx={{ width: "18vw", margin: "0 7vw" }}
-          label="Password"
-          onChange={(val) => store.updateUser("Password", val.target.value)}
-        ></TextField>
+          fullWidth
+          type="password"
+          label="Пароль"
+          placeholder="Введите ваш пароль"
+          autoComplete={isSignin ? "current-password" : "new-password"}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockOutlinedIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
+          onChange={(event) => store.updateUser("Password", event.target.value)}
+        />
         <Button
-          sx={{ width: "18vw", margin: "0 7vw" }}
+          className={style.submit}
+          fullWidth
           variant="contained"
-          color="success"
           disabled={store.buttonStatus}
+          endIcon={<ArrowForwardRoundedIcon />}
           onClick={() => {
-            store.mode === "signin"
-              ? userStore.setToken(store.user)
-              : createUser(store.user);
+            isSignin ? userStore.setToken(store.user) : createUser(store.user);
           }}
         >
-          {store.mode === "signin" ? "Войти" : "Зарегестрировать"}
+          {isSignin ? "Войти в PlantAI" : "Создать аккаунт"}
         </Button>
       </Stack>
     </div>

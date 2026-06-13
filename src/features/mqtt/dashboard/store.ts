@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import {
-  Dashboard,
   MqttClient,
   BrokerParameters,
   TopicDefinition,
@@ -10,27 +9,29 @@ import {
   GetBrokerParameters,
   GetClients,
   GetDataGroups,
+  GetSensorsData,
   GetSubscribedClients,
   GetTopicDefinitions,
 } from "./api";
-import { DashboardBuilder, SetClientsStatuses } from "./utils";
+import { SetClientsStatuses } from "./utils";
+import { SensorData } from "./models/SensorData";
 
 interface MqttDashboardStore {
-  dashboard: Dashboard[];
   mqttClients: MqttClient[];
   brokers: BrokerParameters[];
   topics: TopicDefinition[];
   dataGroups: DataGroup[];
+  sensorDatas: SensorData[];
   initialized: boolean;
   init: () => void;
 }
 
 export const useMqttDashboardStore = create<MqttDashboardStore>((set, get) => ({
-  dashboard: [],
   mqttClients: [],
   brokers: [],
   topics: [],
   dataGroups: [],
+  sensorDatas: [],
   initialized: false,
   init: async () => {
     const brokers = await GetBrokerParameters();
@@ -39,15 +40,15 @@ export const useMqttDashboardStore = create<MqttDashboardStore>((set, get) => ({
       await GetSubscribedClients(),
     );
     const topics = await GetTopicDefinitions();
-    const dashboard = DashboardBuilder(clients, brokers, topics);
     const dataGroups = await GetDataGroups();
+    const sensorDatas = await GetSensorsData();
     set({
-      dashboard: dashboard,
       mqttClients: clients,
       brokers: brokers,
       topics: topics,
-      initialized: true,
       dataGroups: dataGroups,
+      sensorDatas: sensorDatas,
+      initialized: true,
     });
   },
 }));
