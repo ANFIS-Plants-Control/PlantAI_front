@@ -1,0 +1,42 @@
+import { Box, Card, Divider, Stack } from "@mui/material";
+import { useMqttClientStore } from "./store";
+import { useEffect } from "react";
+
+import { ClientCardHeader } from "./partials/ClientCard/header";
+import { ClientCardContent } from "./partials/ClientCard/content";
+import { ClientCardActions } from "./partials/ClientCard/actions";
+import { Title } from "./partials/title";
+import { DialogEdit } from "./partials/dialogEdit";
+import { DialogCreate } from "./partials/dialogCreate";
+
+export function MqttClient() {
+  const clients = useMqttClientStore((s) => s.clients);
+  const init = useMqttClientStore((s) => s.init);
+
+  useEffect(() => {
+    init();
+  }, [init]);
+
+  useEffect;
+
+  return (
+    <Stack sx={{ flex: 1, p: 4 }} spacing={4}>
+      <DialogEdit />
+      <DialogCreate />
+      <Title />
+      <Stack direction="row" sx={{ gap: 2, flexWrap: "wrap" }}>
+        {clients &&
+          clients.map((c) => (
+            <Card key={c.id} sx={{ p: 1, width: 420 }}>
+              <ClientCardHeader client={c} />
+              <ClientCardContent client={c} />
+              <Box sx={{ bottom: 0 }}>
+                <Divider />
+                <ClientCardActions id={c.id} />
+              </Box>
+            </Card>
+          ))}
+      </Stack>
+    </Stack>
+  );
+}

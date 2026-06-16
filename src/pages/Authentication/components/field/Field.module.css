@@ -1,26 +1,88 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background-color: white;
-  border-radius: 10%;
+  padding: 2.4rem;
+  border: 1px solid rgba(28, 124, 84, 0.1);
+  border-radius: 0 0 1.5rem 1.5rem;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 24px 70px rgba(36, 89, 61, 0.12);
 }
 
 .title {
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  margin-top: 3vh;
+  margin-bottom: 2rem;
 }
 
-.title_text {
-  margin-top: 3vh;
+.kicker {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: #2e9c69;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
 }
 
-.icon {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  flex-shrink: 0;
+.title h2 {
+  margin: 0;
+  color: #183e2d;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: -0.045em;
+}
+
+.title p {
+  margin: 0.65rem 0 0;
+  color: #71877c;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.form {
+  gap: 1.1rem;
+}
+
+.form :global(.MuiOutlinedInput-root) {
+  border-radius: 0.9rem;
+  background: #fbfdfb;
+}
+
+.form :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: #dce8df;
+}
+
+.form :global(.MuiInputAdornment-root) {
+  color: #72a087;
+}
+
+.form :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: #8bb89e;
+}
+
+.form :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: #2e9c69;
+  border-width: 1px;
+}
+
+.submit {
+  min-height: 3.45rem !important;
+  margin-top: 0.45rem !important;
+  border-radius: 0.9rem !important;
+  background: #1c7c54 !important;
+  box-shadow: 0 12px 24px rgba(28, 124, 84, 0.22) !important;
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+}
+
+.submit:hover {
+  background: #176646 !important;
+}
+
+.submit:disabled {
+  color: #8ca096 !important;
+  background: #e2ebe5 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 520px) {
+  .container {
+    padding: 1.6rem;
+  }
 }

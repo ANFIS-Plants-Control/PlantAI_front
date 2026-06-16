@@ -1,6 +1,4 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 6vh 90vh 4vh;
 }

@@ -1,4 +1,25 @@
+.switcher {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.35rem;
+  border: 1px solid rgba(28, 124, 84, 0.1);
+  border-bottom: 0;
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: rgba(239, 247, 241, 0.94);
+}
+
 .switcher_element {
   width: 50%;
-  font-weight: 700;
+  min-height: 2.85rem;
+  border-radius: 1.15rem !important;
+  color: #71877c !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+}
+
+.switcher_element[data-active="true"] {
+  color: #1c5d40 !important;
+  background: #ffffff !important;
+  box-shadow: 0 5px 16px rgba(36, 89, 61, 0.09);
 }
