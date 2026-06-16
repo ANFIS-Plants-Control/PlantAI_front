@@ -17,10 +17,12 @@ export function MqttClient() {
     init();
   }, [init]);
 
+  useEffect;
+
   return (
     <Stack sx={{ flex: 1, p: 4 }} spacing={4}>
-      <DialogEdit/>
-      <DialogCreate/>
+      <DialogEdit />
+      <DialogCreate />
       <Title />
       <Stack direction="row" sx={{ gap: 2, flexWrap: "wrap" }}>
         {clients &&

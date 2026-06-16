@@ -21,6 +21,7 @@ export interface MqttClientStore {
   topics: TopicDefinition[];
 
   init: () => void;
+  synchronize: () => void;
 
   isEdit: boolean;
   openEdit: (id: number) => void;
@@ -56,8 +57,11 @@ export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
     );
     const brokers = await GetBrokerParameters();
     const topics = await GetTopicDefinitions();
-    await Synchronize();
     set({ clients: clients, brokers: brokers, topics: topics });
+  },
+
+  synchronize: async () => {
+    await Synchronize();
   },
 
   isEdit: false,

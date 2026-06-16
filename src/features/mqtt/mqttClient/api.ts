@@ -5,7 +5,6 @@ import { TopicDefinition } from "./models/TopicDefinition";
 
 export async function GetClients(): Promise<MqttClient[]> {
   const data = await get<MqttClient[]>("/api/MqttClients/linked-topics");
-  console.log(data);
   if (data !== null) return data;
   return [];
 }

@@ -3,43 +3,45 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import { Box, Paper, Typography } from "@mui/material";
-
-const resources = [
-  {
-    title: "Клиенты",
-    value: "24",
-    caption: "+3 за неделю",
-    icon: <GroupsOutlinedIcon />,
-    color: "#2E9C69",
-    background: "#E8F5EC",
-  },
-  {
-    title: "Брокеры",
-    value: "6",
-    caption: "Все доступны",
-    icon: <DnsOutlinedIcon />,
-    color: "#2F80ED",
-    background: "#EAF3FE",
-  },
-  {
-    title: "Топики",
-    value: "18",
-    caption: "12 активных",
-    icon: <TopicOutlinedIcon />,
-    color: "#9B6BD3",
-    background: "#F3EDFA",
-  },
-  {
-    title: "Сообщения",
-    value: "18.4K",
-    caption: "+12% за сутки",
-    icon: <MailOutlineRoundedIcon />,
-    color: "#E18A2C",
-    background: "#FFF4E5",
-  },
-];
+import { useMqttDashboardStore } from "../store";
 
 export function ResourceSummary() {
+  const clients = useMqttDashboardStore((s) => s.mqttClients);
+  const brokers = useMqttDashboardStore((s) => s.brokers);
+  const topics = useMqttDashboardStore((s) => s.topics);
+  const dataGroups = useMqttDashboardStore((s) => s.dataGroups);
+
+  const resources = [
+    {
+      title: "MQTT клиенты",
+      value: clients.length,
+      icon: <GroupsOutlinedIcon />,
+      color: "#2E9C69",
+      background: "#E8F5EC",
+    },
+    {
+      title: "Брокеры",
+      value: brokers.length,
+      icon: <DnsOutlinedIcon />,
+      color: "#2F80ED",
+      background: "#EAF3FE",
+    },
+    {
+      title: "Топики",
+      value: topics.length,
+      icon: <TopicOutlinedIcon />,
+      color: "#9B6BD3",
+      background: "#F3EDFA",
+    },
+    {
+      title: "Сообщения",
+      value: dataGroups.length,
+      icon: <MailOutlineRoundedIcon />,
+      color: "#E18A2C",
+      background: "#FFF4E5",
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -94,14 +96,20 @@ export function ResourceSummary() {
             {resource.icon}
           </Box>
           <Box>
-            <Typography sx={{ color: "#71877C", fontSize: "0.76rem", fontWeight: 700 }}>
+            <Typography
+              sx={{ color: "#71877C", fontSize: "0.76rem", fontWeight: 700 }}
+            >
               {resource.title}
             </Typography>
-            <Typography sx={{ color: "#183E2D", fontSize: "1.8rem", fontWeight: 800, lineHeight: 1.15 }}>
+            <Typography
+              sx={{
+                color: "#183E2D",
+                fontSize: "1.8rem",
+                fontWeight: 800,
+                lineHeight: 1.15,
+              }}
+            >
               {resource.value}
-            </Typography>
-            <Typography sx={{ mt: 0.3, color: "#99A8A0", fontSize: "0.68rem" }}>
-              {resource.caption}
             </Typography>
           </Box>
         </Paper>

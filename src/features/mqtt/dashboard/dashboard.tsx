@@ -1,6 +1,6 @@
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
 import { ClientMessagesPanel } from "./partials/ClientMessagesPanel";
 import { MessagesByRoutePanel } from "./partials/MessagesByRoutePanel";
 import { MessagesTimelineChart } from "./partials/MessagesTimelineChart";
@@ -8,8 +8,13 @@ import { RecentActivityPanel } from "./partials/RecentActivityPanel";
 import { ResourceSummary } from "./partials/ResourceSummary";
 import { SensorMetricsChart } from "./partials/SensorMetricsChart";
 import { SystemHealthCard } from "./partials/SystemHealthCard";
+import { useMqttDashboardStore } from "./store";
 
 export function Dashboard(): JSX.Element {
+  const init = useMqttDashboardStore((s) => s.init);
+  useEffect(() => {
+    init();
+  }, [init]);
   return (
     <Box
       sx={{
@@ -70,7 +75,10 @@ export function Dashboard(): JSX.Element {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", xl: "minmax(0, 2fr) minmax(20rem, 1fr)" },
+          gridTemplateColumns: {
+            xs: "1fr",
+            xl: "minmax(0, 2fr) minmax(20rem, 1fr)",
+          },
           gap: 2.5,
           mt: 2.5,
         }}
