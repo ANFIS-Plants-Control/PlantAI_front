@@ -17,8 +17,6 @@ export function MqttClient() {
     init();
   }, [init]);
 
-  useEffect;
-
   return (
     <Stack sx={{ flex: 1, p: 4 }} spacing={4}>
       <DialogEdit />
