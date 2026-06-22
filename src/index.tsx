@@ -17,11 +17,11 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={DefaultTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <App>
-          <BrowserRouter>
+        <BrowserRouter>
+          <App>
             <Router />
-          </BrowserRouter>
-        </App>
+          </App>
+        </BrowserRouter>
       </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>,

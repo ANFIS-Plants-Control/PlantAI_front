@@ -2,25 +2,36 @@ import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlin
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Box, Card, CardContent, LinearProgress, Typography } from "@mui/material";
+import { useMqttDashboardStore } from "../../store";
 
-const healthItems = [
+
+
+export function SystemHealthCard() {
+  const clients = useMqttDashboardStore(s => s.mqttClients)
+  const brokers = useMqttDashboardStore(s => s.brokers)
+  const availableBrokers = useMqttDashboardStore(s => s.availableBrokers)
+
+  const allClients = clients.length;
+  const activeClients = clients.filter(c => c.isSubscribed).length
+
+  const allBrokers = brokers.length
+  const availableBrokersCount = availableBrokers.length
+  const healthItems = [
   {
     title: "Активные клиенты",
-    value: "21 из 24",
-    progress: 88,
+    value: `${activeClients} из ${allClients}`,
+    progress: activeClients/allClients,
     icon: <GroupsOutlinedIcon />,
     color: "#2E9C69",
   },
   {
     title: "Доступные брокеры",
-    value: "6 из 6",
-    progress: 100,
+    value: `${availableBrokersCount} из ${allBrokers}`,
+    progress: availableBrokersCount/allBrokers,
     icon: <DnsOutlinedIcon />,
     color: "#2F80ED",
   },
 ];
-
-export function SystemHealthCard() {
   return (
     <Card
       elevation={0}

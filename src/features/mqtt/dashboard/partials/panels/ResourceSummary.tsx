@@ -3,7 +3,7 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import { Box, Paper, Typography } from "@mui/material";
-import { useMqttDashboardStore } from "../store";
+import { useMqttDashboardStore } from "../../store";
 
 export function ResourceSummary() {
   const clients = useMqttDashboardStore((s) => s.mqttClients);

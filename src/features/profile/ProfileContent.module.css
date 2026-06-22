@@ -1,0 +1,217 @@
+.container {
+  padding-top: 52px;
+  padding-bottom: 52px;
+}
+
+.heading {
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  color: #1c7c54 !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid rgba(28, 124, 84, 0.14) !important;
+  font-weight: 700 !important;
+}
+
+.title {
+  color: #153d2b;
+  font-size: clamp(2.4rem, 5vw, 4rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.045em !important;
+}
+
+.subtitle {
+  color: #5f786b;
+  font-size: 1rem !important;
+  line-height: 1.65 !important;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.72fr) minmax(430px, 1.28fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.accountCard,
+.scheduleCard {
+  overflow: hidden;
+  border: 1px solid rgba(28, 124, 84, 0.1);
+  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.84) !important;
+  box-shadow: 0 18px 44px rgba(36, 89, 61, 0.08) !important;
+  backdrop-filter: blur(14px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  border-bottom: 1px solid rgba(28, 124, 84, 0.09);
+}
+
+.headerIcon,
+.detailIcon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: #1c7c54;
+  background: #dff3e3;
+}
+
+.headerIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+}
+
+.cardTitle {
+  color: #214b37;
+  font-size: 1.1rem !important;
+  font-weight: 800 !important;
+}
+
+.cardHint,
+.label {
+  color: #789084;
+  font-size: 0.78rem !important;
+}
+
+.details {
+  padding: 10px 24px 18px;
+}
+
+.detailRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 0;
+}
+
+.detailRow + .detailRow {
+  border-top: 1px solid rgba(28, 124, 84, 0.09);
+}
+
+.detailIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.detailIcon svg {
+  font-size: 1.25rem;
+}
+
+.value {
+  margin-top: 2px !important;
+  color: #214b37;
+  font-size: 1rem !important;
+  font-weight: 750 !important;
+}
+
+.schedule {
+  padding: 8px 24px 16px;
+}
+
+.scheduleRow {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(120px, 0.8fr) minmax(140px, auto);
+  align-items: center;
+  gap: 16px;
+  min-height: 58px;
+  border-bottom: 1px solid rgba(28, 124, 84, 0.09);
+}
+
+.scheduleRow:last-child {
+  border-bottom: 0;
+}
+
+.day {
+  color: #315a46;
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+}
+
+.hours,
+.dayOff {
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+}
+
+.hours {
+  color: #1c7c54;
+}
+
+.dayOff {
+  color: #91a298;
+}
+
+.workChip,
+.offChip {
+  justify-self: end;
+  min-width: 138px;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+}
+
+.workChip {
+  color: #176646 !important;
+  background: #dff3e3 !important;
+}
+
+.offChip {
+  color: #718078 !important;
+  background: #eef2ef !important;
+}
+
+@media (max-width: 800px) {
+  .container {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 540px) {
+  .container {
+    padding-right: 16px !important;
+    padding-left: 16px !important;
+  }
+
+  .accountCard,
+  .scheduleCard {
+    border-radius: 18px !important;
+  }
+
+  .cardHeader,
+  .details,
+  .schedule {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .scheduleRow {
+    grid-template-columns: 1fr auto;
+    gap: 4px 12px;
+    padding: 12px 0;
+  }
+
+  .hours,
+  .dayOff {
+    grid-column: 1;
+  }
+
+  .workChip,
+  .offChip {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    min-width: 0;
+  }
+}

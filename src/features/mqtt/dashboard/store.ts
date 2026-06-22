@@ -6,6 +6,7 @@ import {
   DataGroup,
 } from "./models";
 import {
+  GetAvailableBrokers,
   GetBrokerParameters,
   GetClients,
   GetDataGroups,
@@ -19,19 +20,24 @@ import { SensorData } from "./models/SensorData";
 interface MqttDashboardStore {
   mqttClients: MqttClient[];
   brokers: BrokerParameters[];
+  availableBrokers: BrokerParameters[];
   topics: TopicDefinition[];
   dataGroups: DataGroup[];
   sensorDatas: SensorData[];
   initialized: boolean;
   init: () => void;
+
+  checkBrokerActive: () => void;
 }
 
 export const useMqttDashboardStore = create<MqttDashboardStore>((set, get) => ({
   mqttClients: [],
   brokers: [],
+  availableBrokers: [],
   topics: [],
   dataGroups: [],
   sensorDatas: [],
+
   initialized: false,
   init: async () => {
     const brokers = await GetBrokerParameters();
@@ -51,4 +57,8 @@ export const useMqttDashboardStore = create<MqttDashboardStore>((set, get) => ({
       initialized: true,
     });
   },
+  checkBrokerActive: async () => {
+    const availableBrokers = await GetAvailableBrokers();
+    set({availableBrokers: availableBrokers})
+  }
 }));

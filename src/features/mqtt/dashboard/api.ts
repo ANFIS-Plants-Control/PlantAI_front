@@ -43,3 +43,9 @@ export async function GetSensorsData(): Promise<SensorData[]> {
   if (data !== null) return data;
   return [];
 }
+
+export async function GetAvailableBrokers(): Promise<BrokerParameters[]>{
+  const data = await get<BrokerParameters[]>("/api/BrokerParameters/active")
+  if(data !== null) return data;
+  return [];
+}

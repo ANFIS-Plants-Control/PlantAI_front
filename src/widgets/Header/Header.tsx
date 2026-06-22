@@ -1,6 +1,7 @@
 import styles from "./Header.module.css";
 import plant from "../../Shared/images/plant.png";
 import { Link } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 export function Header() {
   return (
@@ -13,7 +14,12 @@ export function Header() {
       <div className={styles.navigation}>
         <div>Main</div>
         <div>About</div>
-        <Link href="/control_panel">Панель управления</Link>
+        <Link component={RouterLink} to="/control_panel">
+          Панель управления
+        </Link>
+        <Link component={RouterLink} to="/profile">
+          Профиль
+        </Link>
       </div>
     </div>
   );

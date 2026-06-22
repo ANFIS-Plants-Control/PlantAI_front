@@ -1,7 +1,7 @@
 import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import { Box, Card, CardHeader } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { useMqttDashboardStore } from "../store";
+import { useMqttDashboardStore } from "../../store";
 
 export function MessagesPerTopic() {
   const dataGroups = useMqttDashboardStore((s) => s.dataGroups);

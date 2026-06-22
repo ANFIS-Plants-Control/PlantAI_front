@@ -1,14 +1,14 @@
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { JSX, useEffect } from "react";
-import { ClientMessagesPanel } from "./partials/ClientMessagesPanel";
-import { MessagesByRoutePanel } from "./partials/MessagesByRoutePanel";
-import { MessagesTimelineChart } from "./partials/MessagesTimelineChart";
-import { RecentActivityPanel } from "./partials/RecentActivityPanel";
-import { ResourceSummary } from "./partials/ResourceSummary";
-import { SensorMetricsChart } from "./partials/SensorMetricsChart";
-import { SystemHealthCard } from "./partials/SystemHealthCard";
+import { ClientMessagesPanel } from "./partials/panels/ClientMessagesPanel";
+import { MessagesByRoutePanel } from "./partials/panels/MessagesByRoutePanel";
+import { RecentActivityPanel } from "./partials/panels/RecentActivityPanel";
+import { ResourceSummary } from "./partials/panels/ResourceSummary";
+import { SensorMetricsChart } from "./partials/panels/SensorMetricsChart";
+import { SystemHealthCard } from "./partials/panels/SystemHealthCard";
 import { useMqttDashboardStore } from "./store";
+import { MessagesPerClient } from "./partials/panels/MessagesPerClient";
 
 export function Dashboard(): JSX.Element {
   const init = useMqttDashboardStore((s) => s.init);
@@ -87,17 +87,6 @@ export function Dashboard(): JSX.Element {
         <SystemHealthCard />
       </Box>
 
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", xl: "repeat(2, minmax(0, 1fr))" },
-          gap: 2.5,
-          mt: 2.5,
-        }}
-      >
-        <MessagesTimelineChart />
-        <RecentActivityPanel />
-      </Box>
 
       <Box
         sx={{
@@ -109,6 +98,18 @@ export function Dashboard(): JSX.Element {
       >
         <MessagesByRoutePanel />
         <ClientMessagesPanel />
+      </Box>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", xl: "repeat(2, minmax(0, 1fr))" },
+          gap: 2.5,
+          mt: 2.5,
+        }}
+      >
+        <RecentActivityPanel />
+        <MessagesPerClient/>
       </Box>
     </Box>
   );

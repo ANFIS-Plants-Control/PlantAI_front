@@ -13,7 +13,6 @@ export function ControlPanel() {
   const panelComponent = useMqttPanelStore((s) => s.panelComponent);
   return (
     <div className={style.container}>
-      <div className={style.title}>Панель управления MQTT клиентами</div>
       <Stack
         direction="row"
         sx={{

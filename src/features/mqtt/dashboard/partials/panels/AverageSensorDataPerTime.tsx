@@ -1,7 +1,7 @@
 import SensorsOutlinedIcon from "@mui/icons-material/SensorsOutlined";
 import { Box, Button, Card, CardHeader } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
-import { useMqttDashboardStore } from "../store";
+import { useMqttDashboardStore } from "../../store";
 import dayjs, { Dayjs } from "dayjs";
 
 interface AvgData {

@@ -1,6 +1,6 @@
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import { Box, Card, CardHeader } from "@mui/material";
-import { useMqttDashboardStore } from "../store";
+import { useMqttDashboardStore } from "../../store";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 export function MessagesPerClient() {
@@ -17,7 +17,6 @@ export function MessagesPerClient() {
       sx={{
         width: "100%",
         minWidth: 0,
-        height: 300,
         border: "1px solid rgba(28,124,84,0.1)",
         borderRadius: 4,
         bgcolor: "rgba(255,255,255,0.82)",
@@ -49,7 +48,6 @@ export function MessagesPerClient() {
           xAxis={[
             {
               data: messagesPerClient.map((mpc) => mpc.client),
-              height: 30,
               tickLabelStyle: { fontSize: 11, fill: "#71877C" },
             },
           ]}

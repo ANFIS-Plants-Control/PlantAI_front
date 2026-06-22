@@ -1,8 +1,7 @@
 import SensorsOutlinedIcon from "@mui/icons-material/SensorsOutlined";
 import { Box, Card, CardHeader, Chip } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
-import { useMqttDashboardStore } from "../store";
-import { data } from "react-router-dom";
+import { useMqttDashboardStore } from "../../store";
 import dayjs from "dayjs";
 
 export function SensorMetricsChart() {
