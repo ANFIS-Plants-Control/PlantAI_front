@@ -1,1 +1,6 @@
-export type PanelComponent = "Dashboard" | "Topics" | "Brokers" | "MqttClients";
+export type PanelComponent =
+  | "Dashboard"
+  | "SensorData"
+  | "Topics"
+  | "Brokers"
+  | "MqttClients";

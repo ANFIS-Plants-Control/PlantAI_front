@@ -1,15 +1,60 @@
 import SensorsOutlinedIcon from "@mui/icons-material/SensorsOutlined";
-import { Box, Card, CardHeader, Chip } from "@mui/material";
+import { Box, Button, Card, CardHeader } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
 import { useMqttDashboardStore } from "../../store";
 import dayjs from "dayjs";
+import { useState } from "react";
+
+const sensorSeries: Record<number, { label: string; color: string }> = {
+  1: { label: "Температура, °C", color: "#E18A2C" },
+  2: { label: "Влажность, %", color: "#2F80ED" },
+  3: { label: "CO2", color: "#2FED2F" },
+};
 
 export function SensorMetricsChart() {
+  const [sensorType, setSensorType] = useState<number>(1);
+
   const dataGroups = useMqttDashboardStore((s) => s.dataGroups);
   const sensorDatas = useMqttDashboardStore((s) => s.sensorDatas);
-  const timeLabels = dataGroups.map((dg) =>
-    dayjs(dg.date).format("MM-DD HH:mm:ss"),
+
+  const sensorTypes = Array.from(
+    new Set(sensorDatas.map((data) => data.sensorTypeId)),
+  ).sort((a, b) => a - b);
+  const activeSensorType = sensorTypes.includes(sensorType)
+    ? sensorType
+    : (sensorTypes[0] ?? sensorType);
+
+  const dataGroupDates = new Map(
+    dataGroups.map((dataGroup) => [dataGroup.id, dataGroup.date]),
   );
+  const chartData = sensorDatas
+    .filter((data) => data.sensorTypeId === activeSensorType)
+    .reduce<{ value: number; date: string }[]>((result, data) => {
+      const date = dataGroupDates.get(data.dataGroupId);
+
+      if (date) {
+        result.push({
+          value: data.value,
+          date: dayjs(date).format("MM-DD HH:mm:ss"),
+        });
+      }
+
+      return result;
+    }, []);
+  const timeLabels = chartData.map((point) => point.date);
+  const values = chartData.map((point) => point.value);
+  const activeSeries = sensorSeries[activeSensorType] ?? {
+    label: `Тип датчика ${activeSensorType}`,
+    color: "#2E9C69",
+  };
+
+  const changeSensorType = () => {
+    if (sensorTypes.length < 2) return;
+
+    const currentIndex = sensorTypes.indexOf(activeSensorType);
+    const nextIndex = (currentIndex + 1) % sensorTypes.length;
+    setSensorType(sensorTypes[nextIndex]);
+  };
 
   return (
     <Card
@@ -41,9 +86,7 @@ export function SensorMetricsChart() {
         title="Показатели датчиков"
         subheader="Изменение значений в течение дня"
         action={
-          <Chip
-            size="small"
-            label="Сегодня"
+          <Button
             sx={{
               mt: 0.75,
               mr: 1,
@@ -51,7 +94,11 @@ export function SensorMetricsChart() {
               bgcolor: "#E8F5EC",
               fontWeight: 700,
             }}
-          />
+            disabled={sensorTypes.length < 2}
+            onClick={changeSensorType}
+          >
+            Сменить тип данных
+          </Button>
         }
         titleTypographyProps={{
           sx: { color: "#214B37", fontSize: "1rem", fontWeight: 800 },
@@ -71,19 +118,9 @@ export function SensorMetricsChart() {
           ]}
           series={[
             {
-              data: sensorDatas
-                .filter((x) => x.sensorTypeId === 1)
-                .map((x) => x.value),
-              label: "Температура, °C",
-              color: "#E18A2C",
-              showMark: false,
-            },
-            {
-              data: sensorDatas
-                .filter((x) => x.sensorTypeId === 2)
-                .map((x) => x.value),
-              label: "Влажность, %",
-              color: "#2F80ED",
+              data: values,
+              label: activeSeries.label,
+              color: activeSeries.color,
               showMark: false,
             },
           ]}

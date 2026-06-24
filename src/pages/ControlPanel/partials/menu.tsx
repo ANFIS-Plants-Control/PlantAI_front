@@ -16,6 +16,7 @@ import {
   DnsIcon,
   PersonIcon,
   SensorsIcon,
+  TableChartIcon,
   TopicIcon,
 } from "../../../Shared/icons";
 
@@ -111,6 +112,11 @@ const menu: MenuItem[] = [
     title: "Dashboard",
     icon: <DashboardIcon sx={{ fontSize: "2rem", color: "#FFF" }} />,
     component: "Dashboard",
+  },
+  {
+    title: "Данные датчиков",
+    icon: <TableChartIcon sx={{ fontSize: "2rem", color: "#FFF" }} />,
+    component: "SensorData",
   },
   {
     title: "MQTT",

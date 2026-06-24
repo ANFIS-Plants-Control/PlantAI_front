@@ -26,7 +26,7 @@ interface MqttDashboardStore {
   sensorDatas: SensorData[];
   initialized: boolean;
   init: () => void;
-
+  updateSensorsData: (data: DataGroup) => void;
   checkBrokerActive: () => void;
 }
 
@@ -57,8 +57,16 @@ export const useMqttDashboardStore = create<MqttDashboardStore>((set, get) => ({
       initialized: true,
     });
   },
+
+  updateSensorsData: (data: DataGroup) => {
+    set({
+      dataGroups: [...get().dataGroups, data],
+      sensorDatas: [...get().sensorDatas, ...data.sensorData],
+    });
+  },
+
   checkBrokerActive: async () => {
     const availableBrokers = await GetAvailableBrokers();
-    set({availableBrokers: availableBrokers})
-  }
+    set({ availableBrokers: availableBrokers });
+  },
 }));

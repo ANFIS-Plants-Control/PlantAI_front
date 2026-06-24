@@ -1,6 +1,10 @@
 import { get, postBody } from "../../../utils/api/BaseApiClient";
 import { BrokerParameters } from "./models/BrokerParameters";
-import { CreateMqttClient, MqttClient } from "./models/MqttClient";
+import {
+  CreateMqttClient,
+  CreateSubscribe,
+  MqttClient,
+} from "./models/MqttClient";
 import { TopicDefinition } from "./models/TopicDefinition";
 
 export async function GetClients(): Promise<MqttClient[]> {
@@ -21,6 +25,10 @@ export async function GetTopicDefinitions(): Promise<TopicDefinition[]> {
   return [];
 }
 
+export async function SubscribeOnTopic(body: CreateSubscribe) {
+  return postBody<CreateSubscribe, string>("/api/MqttClients/subscribe", body);
+}
+
 export async function GetSubscribedClients(): Promise<string[]> {
   const data = await get<string[]>("/api/MqttClients/subscribed");
   if (data !== null) return data;
@@ -36,6 +44,8 @@ export async function CreateClient(body: CreateMqttClient) {
 }
 
 export async function Synchronize() {
-  const message = await get<string>("/api/MqttClients/synchronize");
-  console.log(message);
+  const data = await get<string[]>("/api/MqttClients/synchronize");
+  console.log(data);
+  if (data !== null) return data;
+  return [];
 }

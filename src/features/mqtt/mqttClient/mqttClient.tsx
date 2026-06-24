@@ -25,12 +25,20 @@ export function MqttClient() {
       <Stack direction="row" sx={{ gap: 2, flexWrap: "wrap" }}>
         {clients &&
           clients.map((c) => (
-            <Card key={c.id} sx={{ p: 1, width: 420 }}>
+            <Card
+              key={c.id}
+              sx={{
+                width: 470,
+                maxWidth: "100%",
+                borderRadius: 3,
+                overflow: "hidden",
+              }}
+            >
               <ClientCardHeader client={c} />
               <ClientCardContent client={c} />
-              <Box sx={{ bottom: 0 }}>
+              <Box>
                 <Divider />
-                <ClientCardActions id={c.id} />
+                <ClientCardActions client={c} />
               </Box>
             </Card>
           ))}

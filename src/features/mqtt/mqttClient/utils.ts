@@ -3,12 +3,14 @@ import { MqttClient } from "./models/MqttClient";
 
 export function SetClientsStatuses(
   clients: MqttClient[],
-  subscribedClients: string[],
+  connectedClients: string[],
 ): MqttClient[] {
-  return clients.map((c) => ({
-    ...c,
-    isSubscribed: subscribedClients.includes(c.clientId),
-  }));
+  if (connectedClients.length > 0) {
+    return clients.map((c) => ({
+      ...c,
+      isConnected: connectedClients.includes(c.clientId),
+    }));
+  } else return clients;
 }
 
 export function BrokerToAddr(broker: BrokerParameters | undefined) {

@@ -1,12 +1,18 @@
 import { Box, CardHeader } from "@mui/material";
 import { MqttClient } from "../../models";
 import { ManageAccountsIcon } from "../../../../../Shared/icons";
+import { useMqttClientStore } from "../../store";
+import { useEffect } from "react";
 
 interface IClientCardHeader {
   client: MqttClient;
 }
 
 export function ClientCardHeader(client: IClientCardHeader) {
+  const synchronize = useMqttClientStore((s) => s.synchronize);
+  useEffect(() => {
+    synchronize();
+  }, [synchronize]);
   return (
     <CardHeader
       avatar={
@@ -36,11 +42,11 @@ export function ClientCardHeader(client: IClientCardHeader) {
             borderRadius: 10,
             fontSize: "1rem",
             fontWeight: 600,
-            backgroundColor: client.client.isSubscribed ? "#dcfce7" : "#fee2e2",
-            color: client.client.isSubscribed ? "#166534" : "#991b1b",
+            backgroundColor: client.client.isConnected ? "#dcfce7" : "#fee2e2",
+            color: client.client.isConnected ? "#166534" : "#991b1b",
           }}
         >
-          {client.client.isSubscribed ? "Subscribed" : "Offline"}
+          {client.client.isConnected ? "Online" : "Offline"}
         </Box>
       }
     />

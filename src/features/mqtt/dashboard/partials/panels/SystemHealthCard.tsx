@@ -1,42 +1,45 @@
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import { Box, Card, CardContent, LinearProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import { useMqttDashboardStore } from "../../store";
 
-
-
 export function SystemHealthCard() {
-  const clients = useMqttDashboardStore(s => s.mqttClients)
-  const brokers = useMqttDashboardStore(s => s.brokers)
-  const availableBrokers = useMqttDashboardStore(s => s.availableBrokers)
+  const clients = useMqttDashboardStore((s) => s.mqttClients);
+  const brokers = useMqttDashboardStore((s) => s.brokers);
+  const availableBrokers = useMqttDashboardStore((s) => s.availableBrokers);
 
   const allClients = clients.length;
-  const activeClients = clients.filter(c => c.isSubscribed).length
+  const activeClients = clients.filter((c) => c.isSubscribed).length;
 
-  const allBrokers = brokers.length
-  const availableBrokersCount = availableBrokers.length
+  const allBrokers = brokers.length;
+  const availableBrokersCount = availableBrokers.length;
   const healthItems = [
-  {
-    title: "Активные клиенты",
-    value: `${activeClients} из ${allClients}`,
-    progress: activeClients/allClients,
-    icon: <GroupsOutlinedIcon />,
-    color: "#2E9C69",
-  },
-  {
-    title: "Доступные брокеры",
-    value: `${availableBrokersCount} из ${allBrokers}`,
-    progress: availableBrokersCount/allBrokers,
-    icon: <DnsOutlinedIcon />,
-    color: "#2F80ED",
-  },
-];
+    {
+      title: "Активные клиенты",
+      value: `${activeClients} из ${allClients}`,
+      progress: (activeClients / allClients) * 100,
+      icon: <GroupsOutlinedIcon />,
+      color: "#2E9C69",
+    },
+    {
+      title: "Доступные брокеры",
+      value: `${availableBrokersCount} из ${allBrokers}`,
+      progress: (availableBrokersCount / allBrokers) * 100,
+      icon: <DnsOutlinedIcon />,
+      color: "#2F80ED",
+    },
+  ];
   return (
     <Card
       elevation={0}
       sx={{
-        height: "100%",
         border: "1px solid rgba(28,124,84,0.1)",
         borderRadius: 4,
         bgcolor: "rgba(255,255,255,0.84)",
@@ -44,12 +47,23 @@ export function SystemHealthCard() {
       }}
     >
       <CardContent sx={{ p: 2.5 }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2.5 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 2.5,
+          }}
+        >
           <Box>
-            <Typography sx={{ color: "#214B37", fontSize: "1rem", fontWeight: 800 }}>
+            <Typography
+              sx={{ color: "#214B37", fontSize: "1rem", fontWeight: 800 }}
+            >
               Здоровье системы
             </Typography>
-            <Typography sx={{ mt: 0.35, color: "#8A9C93", fontSize: "0.72rem" }}>
+            <Typography
+              sx={{ mt: 0.35, color: "#8A9C93", fontSize: "0.72rem" }}
+            >
               Доступность инфраструктуры
             </Typography>
           </Box>
@@ -58,7 +72,6 @@ export function SystemHealthCard() {
               display: "grid",
               placeItems: "center",
               width: 42,
-              height: 42,
               borderRadius: 2.5,
               color: "#1C7C54",
               bgcolor: "#E8F5EC",
@@ -71,14 +84,35 @@ export function SystemHealthCard() {
         <Box sx={{ display: "grid", gap: 2.25 }}>
           {healthItems.map((item) => (
             <Box key={item.title}>
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 0.8 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  mb: 0.8,
+                }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Box sx={{ display: "flex", color: item.color }}>{item.icon}</Box>
-                  <Typography sx={{ color: "#526D5F", fontSize: "0.78rem", fontWeight: 700 }}>
+                  <Box sx={{ display: "flex", color: item.color }}>
+                    {item.icon}
+                  </Box>
+                  <Typography
+                    sx={{
+                      color: "#526D5F",
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                    }}
+                  >
                     {item.title}
                   </Typography>
                 </Box>
-                <Typography sx={{ color: "#214B37", fontSize: "0.78rem", fontWeight: 800 }}>
+                <Typography
+                  sx={{
+                    color: "#214B37",
+                    fontSize: "0.78rem",
+                    fontWeight: 800,
+                  }}
+                >
                   {item.value}
                 </Typography>
               </Box>
@@ -97,21 +131,6 @@ export function SystemHealthCard() {
               />
             </Box>
           ))}
-        </Box>
-
-        <Box
-          sx={{
-            mt: 2.5,
-            p: 1.5,
-            borderRadius: 3,
-            color: "#1C7C54",
-            bgcolor: "#F0F8F2",
-            fontSize: "0.75rem",
-            fontWeight: 700,
-            textAlign: "center",
-          }}
-        >
-          Все ключевые сервисы работают стабильно
         </Box>
       </CardContent>
     </Card>

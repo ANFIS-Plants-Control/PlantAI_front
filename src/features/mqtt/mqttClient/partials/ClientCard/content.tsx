@@ -14,7 +14,12 @@ export function ClientCardContent(client: IClientCardContent) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 2,
+        gap: 1.5,
+        px: 2,
+        py: 1.25,
+        "&:last-child": {
+          pb: 1.5,
+        },
       }}
     >
       <Box>
@@ -28,7 +33,7 @@ export function ClientCardContent(client: IClientCardContent) {
           {BrokerToAddr(brokers.find((b) => b.id === client.client.brokerId))}
         </Typography>
       </Box>
-      <Box sx={{ height: 80 }}>
+      <Box>
         <Typography variant="body2" color="text.secondary" gutterBottom>
           Linked topics
         </Typography>
@@ -36,8 +41,8 @@ export function ClientCardContent(client: IClientCardContent) {
           direction="row"
           sx={{
             flexWrap: "wrap",
-            gap: 1,
-            maxHeight: 90,
+            gap: 0.75,
+            maxHeight: 64,
             overflowY: "auto",
           }}
         >

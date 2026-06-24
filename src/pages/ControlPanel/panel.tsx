@@ -8,6 +8,7 @@ import { Topic } from "../../features/mqtt/topic/topic";
 import { Broker } from "../../features/mqtt/broker/broker";
 import { MqttClient } from "../../features/mqtt/mqttClient/mqttClient";
 import { Menu } from "./partials/menu";
+import { SensorData } from "../../features/sensorData/sensorData";
 
 export function ControlPanel() {
   const panelComponent = useMqttPanelStore((s) => s.panelComponent);
@@ -30,6 +31,7 @@ export function ControlPanel() {
 
 const ControlComponents: Record<PanelComponent, JSX.Element> = {
   Dashboard: <Dashboard />,
+  SensorData: <SensorData />,
   Topics: <Topic />,
   Brokers: <Broker />,
   MqttClients: <MqttClient />,

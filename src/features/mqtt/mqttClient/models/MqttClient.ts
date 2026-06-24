@@ -5,10 +5,15 @@ export interface MqttClient {
   clientId: string;
   topics: TopicDefinition[];
   brokerId: number;
-  isSubscribed: boolean;
+  isConnected: boolean;
 }
 
 export interface CreateMqttClient {
   clientId: string;
   brokerId: string;
+}
+
+export interface CreateSubscribe {
+  clientId: string;
+  topicId: number;
 }

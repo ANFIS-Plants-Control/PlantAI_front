@@ -1,20 +1,57 @@
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { JSX, useEffect } from "react";
-import { ClientMessagesPanel } from "./partials/panels/ClientMessagesPanel";
+import { JSX, useEffect, useState } from "react";
 import { MessagesByRoutePanel } from "./partials/panels/MessagesByRoutePanel";
-import { RecentActivityPanel } from "./partials/panels/RecentActivityPanel";
 import { ResourceSummary } from "./partials/panels/ResourceSummary";
 import { SensorMetricsChart } from "./partials/panels/SensorMetricsChart";
 import { SystemHealthCard } from "./partials/panels/SystemHealthCard";
 import { useMqttDashboardStore } from "./store";
 import { MessagesPerClient } from "./partials/panels/MessagesPerClient";
+import {
+  HubConnectionBuilder,
+  HubConnection,
+  LogLevel,
+} from "@microsoft/signalr";
+import { DataGroup } from "./models";
+import { MessagesPerTopic } from "./partials/panels/MessagesPerTopic";
 
 export function Dashboard(): JSX.Element {
+  const [connection, setConnection] = useState<HubConnection | null>(null);
+  const updateSensorData = useMqttDashboardStore((s) => s.updateSensorsData);
+
   const init = useMqttDashboardStore((s) => s.init);
   useEffect(() => {
     init();
   }, [init]);
+
+  useEffect(() => {
+    const newConnection = new HubConnectionBuilder()
+      .withUrl("http://localhost:5259/sensorDataSoket")
+      .withAutomaticReconnect()
+      .configureLogging(LogLevel.Information)
+      .build();
+
+    setConnection(newConnection);
+  }, []);
+
+  useEffect(() => {
+    if (!connection) return;
+
+    connection
+      .start()
+      .then(() => {
+        connection.on("Receive", (data: DataGroup) => {
+          updateSensorData(data);
+        });
+      })
+      .catch((error) => console.error("Connection failed: ", error));
+
+    return () => {
+      connection.off("Receive");
+      connection.stop();
+    };
+  }, [connection, updateSensorData]);
+
   return (
     <Box
       sx={{
@@ -87,7 +124,6 @@ export function Dashboard(): JSX.Element {
         <SystemHealthCard />
       </Box>
 
-
       <Box
         sx={{
           display: "grid",
@@ -97,9 +133,8 @@ export function Dashboard(): JSX.Element {
         }}
       >
         <MessagesByRoutePanel />
-        <ClientMessagesPanel />
+        <MessagesPerClient />
       </Box>
-
       <Box
         sx={{
           display: "grid",
@@ -108,8 +143,7 @@ export function Dashboard(): JSX.Element {
           mt: 2.5,
         }}
       >
-        <RecentActivityPanel />
-        <MessagesPerClient/>
+        <MessagesPerTopic />
       </Box>
     </Box>
   );

@@ -8,6 +8,7 @@ import {
   GetClients,
   GetSubscribedClients,
   GetTopicDefinitions,
+  SubscribeOnTopic,
   Synchronize,
 } from "./api";
 import { SetClientsStatuses } from "./utils";
@@ -40,6 +41,8 @@ export interface MqttClientStore {
     value: CreateMqttClient[T],
   ) => void;
   handleCreateClient: () => void;
+
+  subscribeOnTopic: (clientId: string, topicId: number) => void;
 }
 
 export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
@@ -51,18 +54,13 @@ export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
   topics: [],
 
   init: async () => {
-    const clients = SetClientsStatuses(
-      await GetClients(),
-      await GetSubscribedClients(),
-    );
     const brokers = await GetBrokerParameters();
     const topics = await GetTopicDefinitions();
+    const clients = SetClientsStatuses(await GetClients(), await Synchronize());
     set({ clients: clients, brokers: brokers, topics: topics });
   },
 
-  synchronize: async () => {
-    await Synchronize();
-  },
+  synchronize: async () => {},
 
   isEdit: false,
   openEdit: (id: number) => {
@@ -95,5 +93,10 @@ export const useMqttClientStore = create<MqttClientStore>((set, get) => ({
   },
   handleCreateClient: async () => {
     await CreateClient(get().createClient);
+  },
+
+  subscribeOnTopic: async (clientId: string, topicId: number) => {
+    await SubscribeOnTopic({ clientId, topicId });
+    get().init();
   },
 }));
