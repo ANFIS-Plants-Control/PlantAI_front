@@ -5,6 +5,8 @@ import { useMqttDashboardStore } from "../../store";
 import dayjs from "dayjs";
 import { useState } from "react";
 
+const chartPointsLimit = 30;
+
 const sensorSeries: Record<number, { label: string; color: string }> = {
   1: { label: "Температура, °C", color: "#E18A2C" },
   2: { label: "Влажность, %", color: "#2F80ED" },
@@ -29,18 +31,21 @@ export function SensorMetricsChart() {
   );
   const chartData = sensorDatas
     .filter((data) => data.sensorTypeId === activeSensorType)
-    .reduce<{ value: number; date: string }[]>((result, data) => {
+    .reduce<{ value: number; date: Date }[]>((result, data, index) => {
       const date = dataGroupDates.get(data.dataGroupId);
+      const timestamp = dayjs(date).valueOf();
 
-      if (date) {
+      if (Number.isFinite(timestamp)) {
         result.push({
           value: data.value,
-          date: dayjs(date).format("MM-DD HH:mm:ss"),
+          date: new Date(timestamp + index),
         });
       }
 
       return result;
-    }, []);
+    }, [])
+    .sort((first, second) => first.date.getTime() - second.date.getTime())
+    .slice(-chartPointsLimit);
   const timeLabels = chartData.map((point) => point.date);
   const values = chartData.map((point) => point.value);
   const activeSeries = sensorSeries[activeSensorType] ?? {
@@ -111,8 +116,9 @@ export function SensorMetricsChart() {
         <LineChart
           xAxis={[
             {
-              scaleType: "point",
+              scaleType: "time",
               data: timeLabels,
+              valueFormatter: (date) => dayjs(date).format("HH:mm:ss"),
               tickLabelStyle: { fontSize: 11, fill: "#71877C" },
             },
           ]}
