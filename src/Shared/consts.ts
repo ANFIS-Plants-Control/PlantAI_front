@@ -1,1 +1,1 @@
-export const telemetry_host = "http://localhost:5259";
+export const telemetry_host = "/telemetry";
