@@ -1,23 +1,21 @@
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { JSX, useEffect, useState } from "react";
+import { JSX, useEffect } from "react";
 import { MessagesByRoutePanel } from "./partials/panels/MessagesByRoutePanel";
 import { ResourceSummary } from "./partials/panels/ResourceSummary";
 import { SensorMetricsChart } from "./partials/panels/SensorMetricsChart";
 import { SystemHealthCard } from "./partials/panels/SystemHealthCard";
 import { useMqttDashboardStore } from "./store";
 import { MessagesPerClient } from "./partials/panels/MessagesPerClient";
-import {
-  HubConnectionBuilder,
-  HubConnection,
-  LogLevel,
-} from "@microsoft/signalr";
-import { DataGroup } from "./models";
 import { MessagesPerTopic } from "./partials/panels/MessagesPerTopic";
+import { DashboardMessagesPanel } from "./partials/panels/DashboardMessagesPanel";
+
+const dashboardMessagePeriodMs = 30000;
 
 export function Dashboard(): JSX.Element {
-  const [connection, setConnection] = useState<HubConnection | null>(null);
-  const updateSensorData = useMqttDashboardStore((s) => s.updateSensorsData);
+  const pushDashboardMessage = useMqttDashboardStore(
+    (s) => s.pushDashboardMessage,
+  );
 
   const init = useMqttDashboardStore((s) => s.init);
   useEffect(() => {
@@ -25,37 +23,20 @@ export function Dashboard(): JSX.Element {
   }, [init]);
 
   useEffect(() => {
-    const newConnection = new HubConnectionBuilder()
-      .withUrl("http://localhost:5259/sensorDataSoket")
-      .withAutomaticReconnect()
-      .configureLogging(LogLevel.Information)
-      .build();
+    pushDashboardMessage();
+    const intervalId = window.setInterval(
+      pushDashboardMessage,
+      dashboardMessagePeriodMs,
+    );
 
-    setConnection(newConnection);
-  }, []);
-
-  useEffect(() => {
-    if (!connection) return;
-
-    connection
-      .start()
-      .then(() => {
-        connection.on("Receive", (data: DataGroup) => {
-          updateSensorData(data);
-        });
-      })
-      .catch((error) => console.error("Connection failed: ", error));
-
-    return () => {
-      connection.off("Receive");
-      connection.stop();
-    };
-  }, [connection, updateSensorData]);
+    return () => window.clearInterval(intervalId);
+  }, [pushDashboardMessage]);
 
   return (
     <Box
       sx={{
         width: "100%",
+        boxSizing: "border-box",
         flexGrow: 1,
         minWidth: 0,
         px: { xs: 1.5, md: 3 },
@@ -121,7 +102,10 @@ export function Dashboard(): JSX.Element {
         }}
       >
         <SensorMetricsChart />
-        <SystemHealthCard />
+        <Box sx={{ display: "grid", gap: 2.5 }}>
+          <SystemHealthCard />
+          <DashboardMessagesPanel />
+        </Box>
       </Box>
 
       <Box

@@ -14,6 +14,7 @@ import { PanelComponent } from "../models/PanelComponent";
 import {
   DashboardIcon,
   DnsIcon,
+  ManageAccountsIcon,
   PersonIcon,
   SensorsIcon,
   TableChartIcon,
@@ -38,8 +39,13 @@ export function Menu() {
   return (
     <List
       sx={{
-        width: "100%",
-        maxWidth: 360,
+        width: { xs: 220, md: 280 },
+        flex: "0 0 auto",
+        minWidth: { xs: 220, md: 280 },
+        maxWidth: { xs: 220, md: 280 },
+        height: "100%",
+        overflowY: "auto",
+        boxSizing: "border-box",
         backgroundColor: "#1C7C54",
         color: "#FFF",
       }}
@@ -117,6 +123,11 @@ const menu: MenuItem[] = [
     title: "Данные датчиков",
     icon: <TableChartIcon sx={{ fontSize: "2rem", color: "#FFF" }} />,
     component: "SensorData",
+  },
+  {
+    title: "Управление",
+    icon: <ManageAccountsIcon sx={{ fontSize: "2rem", color: "#FFF" }} />,
+    component: "Control",
   },
   {
     title: "MQTT",

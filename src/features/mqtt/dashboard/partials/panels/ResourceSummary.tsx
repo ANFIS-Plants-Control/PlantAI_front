@@ -1,6 +1,7 @@
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
+import SensorsOutlinedIcon from "@mui/icons-material/SensorsOutlined";
 import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import { Box, Paper, Typography } from "@mui/material";
 import { useMqttDashboardStore } from "../../store";
@@ -10,6 +11,7 @@ export function ResourceSummary() {
   const brokers = useMqttDashboardStore((s) => s.brokers);
   const topics = useMqttDashboardStore((s) => s.topics);
   const dataGroups = useMqttDashboardStore((s) => s.dataGroups);
+  const sensorDatas = useMqttDashboardStore((s) => s.sensorDatas);
 
   const resources = [
     {
@@ -34,11 +36,18 @@ export function ResourceSummary() {
       background: "#F3EDFA",
     },
     {
-      title: "Сообщения",
+      title: "Пакеты данных",
       value: dataGroups.length,
       icon: <MailOutlineRoundedIcon />,
       color: "#E18A2C",
       background: "#FFF4E5",
+    },
+    {
+      title: "Показания",
+      value: sensorDatas.length,
+      icon: <SensorsOutlinedIcon />,
+      color: "#D9534F",
+      background: "#FDECEC",
     },
   ];
 
@@ -49,7 +58,7 @@ export function ResourceSummary() {
         gridTemplateColumns: {
           xs: "1fr",
           sm: "repeat(2, minmax(0, 1fr))",
-          xl: "repeat(4, minmax(0, 1fr))",
+          xl: "repeat(5, minmax(0, 1fr))",
         },
         gap: 2,
       }}
@@ -95,9 +104,14 @@ export function ResourceSummary() {
           >
             {resource.icon}
           </Box>
-          <Box>
+          <Box sx={{ minWidth: 0 }}>
             <Typography
-              sx={{ color: "#71877C", fontSize: "0.76rem", fontWeight: 700 }}
+              sx={{
+                color: "#71877C",
+                fontSize: "0.76rem",
+                fontWeight: 700,
+                overflowWrap: "anywhere",
+              }}
             >
               {resource.title}
             </Typography>

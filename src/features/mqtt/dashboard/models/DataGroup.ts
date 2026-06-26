@@ -5,5 +5,7 @@ export interface DataGroup {
   date: Date;
   mqttClientId: number;
   topicId: number;
+  sourceClientId?: string;
+  sourceTopic?: string;
   sensorData: SensorData[];
 }

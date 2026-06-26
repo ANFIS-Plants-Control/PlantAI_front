@@ -12,8 +12,9 @@ export function Header() {
       </div>
 
       <div className={styles.navigation}>
-        <div>Main</div>
-        <div>About</div>
+        <Link component={RouterLink} to="/">
+          На главную
+        </Link>
         <Link component={RouterLink} to="/control_panel">
           Панель управления
         </Link>

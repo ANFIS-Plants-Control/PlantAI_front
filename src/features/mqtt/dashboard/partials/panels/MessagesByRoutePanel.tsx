@@ -1,26 +1,41 @@
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import { Box, Card, CardHeader, Chip } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { DataGroup, MqttClient } from "../../models";
 import { useMqttDashboardStore } from "../../store";
-import { MqttClient } from "../../models";
+
+function isGroupFromClient(group: DataGroup, client: MqttClient) {
+  return (
+    group.mqttClientId === client.id ||
+    (!!group.sourceClientId && group.sourceClientId === client.clientId)
+  );
+}
 
 export function MessagesByRoutePanel() {
   const brokers = useMqttDashboardStore((s) => s.brokers);
   const clients = useMqttDashboardStore((s) => s.mqttClients);
   const dataGroups = useMqttDashboardStore((s) => s.dataGroups);
-  console.log(brokers);
-  console.log(clients);
-  console.log(dataGroups);
-  const chartData = brokers.map((b) => ({
-    xAxis: `${b.host}:${b.port}`,
-    yAxis: dataGroups.filter((x) =>
-      clients
-        .filter((x) => x.brokerId === b.id)
-        .includes(
-          clients?.find((c) => c.id === x.mqttClientId) || ({} as MqttClient),
-        ),
-    ).length,
-  }));
+
+  const knownBrokerData = brokers.map((broker) => {
+    const brokerClients = clients.filter((client) => client.brokerId === broker.id);
+
+    return {
+      broker: `${broker.host}:${broker.port}`,
+      packets: dataGroups.filter((group) =>
+        brokerClients.some((client) => isGroupFromClient(group, client)),
+      ).length,
+    };
+  });
+  const unknownPackets = dataGroups.filter(
+    (group) => !clients.some((client) => isGroupFromClient(group, client)),
+  ).length;
+  const chartData =
+    unknownPackets > 0
+      ? [
+          ...knownBrokerData,
+          { broker: "Неизвестный источник", packets: unknownPackets },
+        ]
+      : knownBrokerData;
 
   return (
     <Card
@@ -49,12 +64,12 @@ export function MessagesByRoutePanel() {
             <AccountTreeOutlinedIcon />
           </Box>
         }
-        title="Сообщения по брокерам"
-        subheader="Сравнение пропущенного трафика"
+        title="Пакеты данных по брокерам"
+        subheader="Распределение входящих пакетов с датчиков"
         action={
           <Chip
             size="small"
-            label="Последний час"
+            label="SignalR Receive"
             sx={{
               mt: 0.75,
               mr: 1,
@@ -76,14 +91,14 @@ export function MessagesByRoutePanel() {
           xAxis={[
             {
               scaleType: "band",
-              data: chartData.map((d) => d.xAxis),
+              data: chartData.map((data) => data.broker),
               tickLabelStyle: { fontSize: 10, fill: "#71877C" },
             },
           ]}
           series={[
             {
-              data: chartData.map((d) => d.yAxis),
-              label: "Сообщения",
+              data: chartData.map((data) => data.packets),
+              label: "Пакеты данных",
               color: "#2F80ED",
             },
           ]}

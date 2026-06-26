@@ -16,6 +16,7 @@ export function SensorData() {
     <Box
       sx={{
         width: "100%",
+        boxSizing: "border-box",
         flexGrow: 1,
         minWidth: 0,
         px: { xs: 1.5, md: 3 },
